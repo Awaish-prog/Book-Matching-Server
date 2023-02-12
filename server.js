@@ -18,7 +18,7 @@ app.post("/api/createUser", createUser)
 
 app.post("/api/saveUserData", authenticate, saveUserData)
 
-app.get("/api/getBookMatchingData", authenticate, getBookMatchingData)
+app.post("/api/getBookMatchingData", authenticate, getBookMatchingData)
 
 app.listen("4000", () => {
     console.log("server running");
