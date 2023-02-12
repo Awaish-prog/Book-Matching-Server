@@ -1,4 +1,6 @@
 const User = require('../models/userModel')
+const jwt = require("jsonwebtoken")
+require('dotenv').config()
 
 async function saveUserData(req, res){
     const name = req.body.name.toLowerCase()
@@ -14,7 +16,10 @@ async function saveUserData(req, res){
 async function createUser(req, res){
     const name = req.body.name.toLowerCase()
     if(await User.findOne({name: name})){
-        res.json({status: true})
+        const token = jwt.sign({
+            name: name
+        }, process.env.KEY);
+        res.json({status: true, token: token})
     }
     else{
         await User.create(
@@ -22,10 +27,12 @@ async function createUser(req, res){
                 name,
                 genres: [],
                 books: []
-
             }
         )
-        res.json({status: true})
+        const token = jwt.sign({
+            name: name
+        }, process.env.KEY);
+        res.json({status: true, token: token})
     }
 }
 
